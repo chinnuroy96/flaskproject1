@@ -1,0 +1,24 @@
+image: python:3.12
+
+stages:
+  - build
+  - test
+
+build_app:
+  stage: build
+  script:
+    - pip install -r requirements.txt
+    - mkdir build
+    - cp app.py build/
+    - cp requirements.txt build/
+    - tar -czf flask-app.tar.gz build/
+  artifacts:
+    paths:
+      - flask-app.tar.gz
+
+run_tests:
+  stage: test
+  script:
+    - pip install -r requirements.txt
+    - pip install pytest
+    - pytest
